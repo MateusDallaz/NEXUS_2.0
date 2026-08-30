@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados das Tabelas</title>
+    <style>
+        table{border-collapse: collapse; margin-bottom: 30px;}
+        th, td{border: 1px solid #ccc; padding: 8px 12px; text-align: left;}
+        th{background: #f0f0f0;}
+    </style>
+</head>
+<body>
+    <h1>Usuario</h1>
+    <table id="tabela-usuario">
+        <thead>
+            <tr>
+                <th>Apelido</th>
+                <th>Nome de Usuário</th>
+                <th>E-mail</th>
+                <th>Senha</th>
+                <th>Status do Usuário</th>
+                <th>Data de Criação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Servidor</h1>
+    <table id="tabela-servidor">
+        <thead>
+            <tr>
+                <th>Guilda</th>
+                <th>Nome do Servidor</th>
+                <th>Apelido do Dono</th>
+                <th>Data de Criação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Membro</h1>
+    <table id="tabela-membro">
+        <thead>
+            <tr>
+                <th>Cracha</th>
+                <th>Apelido de Usuário</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome</th>
+                <th>Apelido no Servidor</th>
+                <th>Data de Entrada</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Cargo</h1>
+    <table id="tabela-cargo">
+        <thead>
+            <tr>
+                <th>Patente</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome do Cargo</th>
+                <th>Permissões</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Categoria de Canal</h1>
+    <table id="tabela-categoria_canal">
+        <thead>
+            <tr>
+                <th>Seção</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome da Categoria</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Canal</h1>
+    <table id="tabela-canal">
+        <thead>
+            <tr>
+                <th>Sala</th>
+                <th>Guilda do Servidor</th>
+                <th>Seção de Categoria</th>
+                <th>Nome do Canal</th>
+                <th>Tipo de Canal</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Convite</h1>
+    <table id="tabela-convite">
+        <thead>
+            <tr>
+                <th>Passe</th>
+                <th>Guilda do Servidor</th>
+                <th>Sala do Canal</th>
+                <th>Apelido do Criador</th>
+                <th>Código</th>
+                <th>Usos Máximos</th>
+                <th>Usos Atuais</th>
+                <th>Data de Expiração</th>
+                <th>Data de Criação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Banimento</h1>
+    <table id="tabela-banimento">
+        <thead>
+            <tr>
+                <th>Veto</th>
+                <th>Guilda do Servidor</th>
+                <th>Apelido do Banido</th>
+                <th>Apelido do Banidor</th>
+                <th>Motivo</th>
+                <th>Data de Banimento</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const API_URL= "http://127.0.0.1:8000";
+
+        async function carregarUsuario() {
+
+            const resposta = await fetch(`${API_URL}/usuario`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-usuario tbody");
+            corpo.innerHTML = "";
+
+            
+            for (let i = 0; i <dados.length; i++){
+
+                const usuario = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${usuario.Apelido}</td>
+                        <td>${usuario["Nome de Usuário"]}</td>
+                        <td>${usuario["E-mail"]}</td>
+                        <td>${usuario.Senha}</td>
+                        <td>${usuario["Status do Usuário"]}</td>
+                        <td>${usuario["Data de Criação"]}</td>
+                        
+                        </tr>`
+                );
+            };
+        };
+
+        async function carregarServidor() {
+
+            const resposta = await fetch(`${API_URL}/servidor`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-servidor tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const servidor = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${servidor.Guilda}</td>
+                        <td>${servidor["Nome do Servidor"]}</td>
+                        <td>${servidor["Apelido do Dono"]}</td>
+                        <td>${servidor["Data de Criação"]}</td>
+                        </tr>`
+                );
+            };
+        };
+
+        async function carregarMembro() {
+
+            const resposta = await fetch(`${API_URL}/membro`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-membro tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const membro = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${membro.Cracha}</td>
+                        <td>${membro["Apelido de Usuário"]}</td>
+                        <td>${membro["Guilda do Servidor"]}</td>
+                        <td>${membro.Nome}</td>
+                        <td>${membro["Apelido no Servidor"]}</td>
+                        <td>${membro["Data de Entrada"]}</td>
+                        </tr>`
+                );
+            };
+        };
+
+        async function carregarCargo() {
+
+            const resposta = await fetch(`${API_URL}/cargo`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-cargo tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const cargo = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${cargo.Patente}</td>
+                        <td>${cargo["Guilda do Servidor"]}</td>
+                        <td>${cargo["Nome do Cargo"]}</td>
+                        <td>${cargo.Permissões}</td>
+                        </tr>`
+                );
+            };
+        };
+
+        async function carregarCategoria(){
+
+            const resposta = await fetch(`${API_URL}/categoria_canal`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-categoria_canal tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+                
+                const categoria = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                `<tr>
+                    <td>${categoria.Seção}</td>
+                    <td>${categoria["Guilda do Servidor"]}</td>
+                    <td>${categoria["Nome da Categoria"]}</td>
+                    </tr>`
+                );
+            };
+        };
+
+        async function carregarCanal() {
+            
+            const resposta = await fetch(`${API_URL}/canal`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-canal tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const canal = dados[i];
+                
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${canal.Sala}</td>
+                        <td>${canal["Guilda do Servidor"]}</td>
+                        <td>${canal["Seção de Categoria"]}</td>
+                        <td>${canal["Nome do Canal"]}</td>
+                        <td>${canal["Tipo de Canal"]}</td>
+                        </tr>`
+                )
+            };
+        };
+
+        async function carregarConvite() {
+
+            const resposta = await fetch(`${API_URL}/convite`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-convite tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const convite = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${convite.Passe}</td>
+                        <td>${convite["Guilda do Servidor"]}</td>
+                        <td>${convite["Sala do Canal"]}</td>
+                        <td>${convite["Apelido do Criador"]}</td>
+                        <td>${convite.Código}</td>
+                        <td>${convite["Usos Máximos"]}</td>
+                        <td>${convite["Usos Atuais"]}</td>
+                        <td>${convite["Data de Expiração"]}</td>
+                        <td>${convite["Data de Criação"]}</td>
+                        </tr>`
+                );
+            };
+        };
+
+        async function carregarBanimento() {
+
+            const resposta = await fetch(`${API_URL}/banimento`);
+            const dados = await resposta.json();
+
+            const corpo = document.querySelector("#tabela-banimento tbody");
+            corpo.innerHTML = "";
+
+            for (let i = 0; i <dados.length; i++){
+
+                const banimento = dados[i];
+
+                corpo.insertAdjacentHTML ("beforeend",
+                    `<tr>
+                        <td>${banimento.Veto}</td>
+                        <td>${banimento["Guilda do Servidor"]}</td>
+                        <td>${banimento["Apelido do Banido"]}</td>
+                        <td>${banimento["Apelido do Banidor"]}</td>
+                        <td>${banimento.Motivo}</td>
+                        <td>${banimento["Data de Banimento"]}</td>
+                        </tr>`
+                );
+            };
+        };
+
+        carregarUsuario();
+        carregarServidor();
+        carregarMembro();
+        carregarCargo();
+        carregarCategoria();
+        carregarCanal();
+        carregarConvite();
+        carregarBanimento();
+
+    </script>
+</body>
+</html>
