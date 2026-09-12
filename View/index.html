@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados das Tabelas</title>
+    <style>
+        table{border-collapse: collapse; margin-bottom: 12px;}
+        th, td{border: 1px solid #ccc; padding: 8px 12px; text-align: left;}
+        th{background: #f0f0f0;}
+        button{margin-right: 6px;}
+        .barra-acoes{margin-bottom: 8px;}
+    </style>
+</head>
+<body>
+    <h1>Usuario</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-usuario">Adicionar</button></div>
+    <table id="tabela-usuario">
+        <thead>
+            <tr>
+                <th>Apelido</th>
+                <th>Nome de Usuário</th>
+                <th>E-mail</th>
+                <th>Senha</th>
+                <th>Status do Usuário</th>
+                <th>Data de Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Servidor</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-servidor">Adicionar</button></div>
+    <table id="tabela-servidor">
+        <thead>
+            <tr>
+                <th>Guilda</th>
+                <th>Nome do Servidor</th>
+                <th>Apelido do Dono</th>
+                <th>Data de Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Membro</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-membro">Adicionar</button></div>
+    <table id="tabela-membro">
+        <thead>
+            <tr>
+                <th>Cracha</th>
+                <th>Apelido de Usuário</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome</th>
+                <th>Apelido no Servidor</th>
+                <th>Data de Entrada</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Cargo</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-cargo">Adicionar</button></div>
+    <table id="tabela-cargo">
+        <thead>
+            <tr>
+                <th>Patente</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome do Cargo</th>
+                <th>Permissões</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Categoria de Canal</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-categoria_canal">Adicionar</button></div>
+    <table id="tabela-categoria_canal">
+        <thead>
+            <tr>
+                <th>Seção</th>
+                <th>Guilda do Servidor</th>
+                <th>Nome da Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Canal</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-canal">Adicionar</button></div>
+    <table id="tabela-canal">
+        <thead>
+            <tr>
+                <th>Sala</th>
+                <th>Guilda do Servidor</th>
+                <th>Seção de Categoria</th>
+                <th>Nome do Canal</th>
+                <th>Tipo de Canal</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Convite</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-convite">Adicionar</button></div>
+    <table id="tabela-convite">
+        <thead>
+            <tr>
+                <th>Passe</th>
+                <th>Guilda do Servidor</th>
+                <th>Sala do Canal</th>
+                <th>Apelido do Criador</th>
+                <th>Código</th>
+                <th>Usos Máximos</th>
+                <th>Usos Atuais</th>
+                <th>Data de Expiração</th>
+                <th>Data de Criação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h1>Banimento</h1>
+    <div class="barra-acoes"><button id="btn-adicionar-banimento">Adicionar</button></div>
+    <table id="tabela-banimento">
+        <thead>
+            <tr>
+                <th>Veto</th>
+                <th>Guilda do Servidor</th>
+                <th>Apelido do Banido</th>
+                <th>Apelido do Banidor</th>
+                <th>Motivo</th>
+                <th>Data de Banimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        const entidades = [
+            {
+                id: "usuario", endpoint: "/usuario", chaveId: "Apelido",
+                colunas: [
+                    { rotulo: "Apelido", autoGerado: true },
+                    { rotulo: "Nome de Usuário" },
+                    { rotulo: "E-mail" },
+                    { rotulo: "Senha" },
+                    { rotulo: "Status do Usuário" },
+                    { rotulo: "Data de Criação", autoGerado: true },
+                ],
+            },
+            {
+                id: "servidor", endpoint: "/servidor", chaveId: "Guilda",
+                colunas: [
+                    { rotulo: "Guilda", autoGerado: true },
+                    { rotulo: "Nome do Servidor" },
+                    { rotulo: "Apelido do Dono" },
+                    { rotulo: "Data de Criação", autoGerado: true },
+                ],
+            },
+            {
+                id: "membro", endpoint: "/membro", chaveId: "Cracha",
+                colunas: [
+                    { rotulo: "Cracha", autoGerado: true },
+                    { rotulo: "Apelido de Usuário" },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Nome" },
+                    { rotulo: "Apelido no Servidor" },
+                    { rotulo: "Data de Entrada", autoGerado: true },
+                ],
+            },
+            {
+                id: "cargo", endpoint: "/cargo", chaveId: "Patente",
+                colunas: [
+                    { rotulo: "Patente", autoGerado: true },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Nome do Cargo" },
+                    { rotulo: "Permissões" },
+                ],
+            },
+            {
+                id: "categoria_canal", endpoint: "/categoria_canal", chaveId: "Seção",
+                colunas: [
+                    { rotulo: "Seção", autoGerado: true },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Nome da Categoria" },
+                ],
+            },
+            {
+                id: "canal", endpoint: "/canal", chaveId: "Sala",
+                colunas: [
+                    { rotulo: "Sala", autoGerado: true },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Seção de Categoria" },
+                    { rotulo: "Nome do Canal" },
+                    { rotulo: "Tipo de Canal" },
+                ],
+            },
+            {
+                id: "convite", endpoint: "/convite", chaveId: "Passe",
+                colunas: [
+                    { rotulo: "Passe", autoGerado: true },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Sala do Canal" },
+                    { rotulo: "Apelido do Criador" },
+                    { rotulo: "Código" },
+                    { rotulo: "Usos Máximos" },
+                    { rotulo: "Usos Atuais" },
+                    { rotulo: "Data de Expiração" },
+                    { rotulo: "Data de Criação", autoGerado: true },
+                ],
+            },
+            {
+                id: "banimento", endpoint: "/banimento", chaveId: "Veto",
+                colunas: [
+                    { rotulo: "Veto", autoGerado: true },
+                    { rotulo: "Guilda do Servidor" },
+                    { rotulo: "Apelido do Banido" },
+                    { rotulo: "Apelido do Banidor" },
+                    { rotulo: "Motivo" },
+                    { rotulo: "Data de Banimento", autoGerado: true },
+                ],
+            },
+        ];
+
+        function renderizarTabela(entidade, dados) {
+            const corpo = document.querySelector(`#tabela-${entidade.id} tbody`);
+            corpo.innerHTML = "";
+
+            for (const registro of dados) {
+                const linha = document.createElement("tr");
+
+                for (const coluna of entidade.colunas) {
+                    const celula = document.createElement("td");
+                    celula.textContent = registro[coluna.rotulo] ?? "";
+                    linha.appendChild(celula);
+                }
+
+                const celulaAcoes = document.createElement("td");
+
+                const botaoAlterar = document.createElement("button");
+                botaoAlterar.textContent = "Alterar";
+                botaoAlterar.addEventListener("click", () => alterarRegistro(entidade, registro));
+
+                const botaoExcluir = document.createElement("button");
+                botaoExcluir.textContent = "Excluir";
+                botaoExcluir.addEventListener("click", () => excluirRegistro(entidade, registro));
+
+                celulaAcoes.appendChild(botaoAlterar);
+                celulaAcoes.appendChild(botaoExcluir);
+                linha.appendChild(celulaAcoes);
+
+                corpo.appendChild(linha);
+            }
+        }
+
+        async function carregarTabela(entidade) {
+            const resposta = await fetch(`${API_URL}${entidade.endpoint}`);
+            const dados = await resposta.json();
+            renderizarTabela(entidade, dados);
+        }
+
+        function coletarCampos(entidade, registroAtual = {}) {
+            const dadosFormulario = {};
+
+            for (const coluna of entidade.colunas) {
+                if (coluna.autoGerado) continue;
+
+                const valorAtual = registroAtual[coluna.rotulo] ?? "";
+                const valor = window.prompt(coluna.rotulo, valorAtual);
+
+                if (valor === null) return null;
+
+                dadosFormulario[coluna.rotulo] = valor;
+            }
+
+            return dadosFormulario;
+        }
+
+        async function adicionarRegistro(entidade) {
+            const dados = coletarCampos(entidade);
+            if (dados === null) return;
+
+            await fetch(`${API_URL}${entidade.endpoint}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados),
+            });
+
+            carregarTabela(entidade);
+        }
+
+        async function alterarRegistro(entidade, registro) {
+            const dados = coletarCampos(entidade, registro);
+            if (dados === null) return;
+
+            const id = registro[entidade.chaveId];
+
+            await fetch(`${API_URL}${entidade.endpoint}/${encodeURIComponent(id)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados),
+            });
+
+            carregarTabela(entidade);
+        }
+
+        async function excluirRegistro(entidade, registro) {
+            const id = registro[entidade.chaveId];
+            const confirmar = window.confirm(`Excluir o registro "${id}"?`);
+            if (!confirmar) return;
+
+            await fetch(`${API_URL}${entidade.endpoint}/${encodeURIComponent(id)}`, {
+                method: "DELETE",
+            });
+
+            carregarTabela(entidade);
+        }
+
+        for (const entidade of entidades) {
+            document
+                .getElementById(`btn-adicionar-${entidade.id}`)
+                .addEventListener("click", () => adicionarRegistro(entidade));
+
+            carregarTabela(entidade);
+        }
+    </script>
+</body>
+</html>

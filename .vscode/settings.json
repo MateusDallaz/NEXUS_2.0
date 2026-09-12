@@ -1,0 +1,4 @@
+{
+    "python.analysis.extraPaths": ["./Control"],
+    "python.autoComplete.extraPaths": ["./Control"]
+}
